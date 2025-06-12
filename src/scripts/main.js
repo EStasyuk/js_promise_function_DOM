@@ -2,10 +2,29 @@
 
 function waitFor(element, eventName) {
   // write your code here
+  return new Promise((resolve) => {
+    const handler = (event) => {
+      const message = `Це була подія "${eventName}" на елементі: ${element.nodeName}, id: ${element.id || 'N/A'}.`;
+      resolve(message);
+      element.removeEventListener(eventName, handler);
+    };
+    element.addEventListener(eventName, handler);
+  });
 }
 
 const printMessage = (message) => {
   // write your code here
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add('message', 'bg-purple-200', 'text-purple-800', 'p-3', 'rounded-lg', 'text-center', 'shadow-md', 'mb-2');
+  messageDiv.textContent = message;
+  if (messageContainer.firstChild) {
+    messageContainer.insertBefore(messageDiv, messageContainer.firstChild);
+  } else {
+    messageContainer.appendChild(messageDiv);
+  }
+  setTimeout(() => {
+    messageDiv.remove();
+  }, 5000);
 };
 
 const loginField = document.getElementById('login');
